@@ -1,10 +1,13 @@
 <?php
-    include ("./html/head.html");
+    include ("./html/header.html");
 ?>
         <h1>Formulaire d'ajout de contenu au Blog</h1>
         <form enctype="multipart/form-data" action="./insertion_contenu.php" method="post">
             <label for="titre">Titre :</label><br>
             <input type="text" name="titre"><br>
+            
+            <label for="pseudo">Pseudo :</label><br>
+            <input type="text" name="pseudo"><br>
 
             <label for="contenu">Commentaire :</label><br>
             <textarea rows="5" cols="50" name="commentaire"></textarea><br>
@@ -19,4 +22,4 @@
         
         <a href="./affichage_blog.php">Page d'affichage du blog</a>
 <?php
-    include ("./html/foot.html");
+    include ("./html/footer.html");

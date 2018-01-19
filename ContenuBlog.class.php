@@ -3,13 +3,15 @@
 class ContenuBlog {
     private $idContenu;
     private $titre;
+    private $user;
     private $dateEntree;
     private $commentaire;
     private $cheminPhoto;
     
-    public function __construct($id_contenu, $titre, $date_entree, $commentaire, $chemin_photo) {
+    public function __construct($id_contenu, $titre, $user, $date_entree, $commentaire, $chemin_photo) {
         $this->idContenu = $id_contenu;
         $this->titre = $titre;
+        $this->user = $user;
         $this->dateEntree = $date_entree;
         $this->commentaire = $commentaire;
         $this->cheminPhoto = $chemin_photo;
@@ -25,6 +27,10 @@ class ContenuBlog {
     
     public function getTitre() {
         return $this->titre;
+    }
+    
+    public function getUser() {
+        return $this->user;
     }
     
     public function getDateEntree() {

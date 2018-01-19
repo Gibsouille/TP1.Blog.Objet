@@ -1,24 +1,31 @@
 <?php
-    include ("./html/head.html");
+    include ("./html/header.html");
     include ("./Manager.php");
     
     $uploaddir = './photos/';
     $uploadfile = $uploaddir . basename($_FILES['photo']['name']);
 
     echo '<pre>';
-    if (move_uploaded_file($_FILES['photo']['tmp_name'], $uploadfile) && isset($_POST['titre'])) {
+    if (move_uploaded_file($_FILES['photo']['tmp_name'], $uploadfile) && isset($_POST['titre']) && isset($_POST['pseudo'])) {
         $titre = $_POST['titre'];
+        $pseudo = $_POST['pseudo'];
         $commentaire = $_POST['commentaire'];
         $chemin_photo = $_FILES['photo']['name'];
         
         if (empty(trim($commentaire))) {
             $commentaire = NULL;
         }
-
-        $contenuBlog = new ContenuBlog(NULL, $titre, NULL, $commentaire, $chemin_photo);
         
-        $connexionDB = new PDO("mysql:host=localhost;dbname=blog", "root", ""); // connexion bdd
+        $connexionDB = new PDO("mysql:host=localhost;dbname=blog", "root", "");
         $managerContenusBlog = new Manager($connexionDB);
+        $user = new User(NULL, $pseudo);
+        
+        if ($managerContenusBlog->verifierSiUserExiste($user->getPseudo()) === false) {
+            $managerContenusBlog->ajouterUser($user);
+        }
+        
+        $user = $managerContenusBlog->selectUserParPseudo($user->getPseudo());
+        $contenuBlog = new ContenuBlog(NULL, $titre, $user, NULL, $commentaire, $chemin_photo);
         
         $contenusBlogs = $managerContenusBlog->ajouterContenuBlog($contenuBlog);
 
@@ -33,4 +40,4 @@
     
     echo '<a href="./formulaire_ajout.php">Retour à la page d\'insertion</a>';
     
-    include ("./html/foot.html");
+    include ("./html/footer.html");
